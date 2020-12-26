@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 class PhModel(db.Model):
     '''
-    Class for ph logs
+    SQLAlchemy DB Class for ph logs
     '''
     __tablename__ = 'PH_LOG'
     log_id = db.Column(db.Integer, 
