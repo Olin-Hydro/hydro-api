@@ -3,6 +3,7 @@ from flask_restful import Api
 from colorama import init
 
 from models import PhModel, db
+from schemas import ma
 from ph_log import ph_log_by_id, ph_log
 
 
@@ -18,6 +19,10 @@ app.config.from_object('config.DevelopmentConfig')
 
 # Initialize flask_sqlalchemy with the app
 db.init_app(app)
+
+
+# Initialize marshmallow 
+ma.init_app(app)
 
 
 # Add api resource routing
