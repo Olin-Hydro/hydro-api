@@ -1,14 +1,18 @@
-# EC log api classes
-from flask_restful import abort, Resource
-from flask import jsonify, request
-from models import EcModel, db
-from schemas import EcSchema
+from flask_restx import Namespace, Resource
+from flask import jsonify, request, abort
 
+from .resources.models import EcModel, db
+from .resources.schemas import EcSchema
+
+
+api = Namespace('ec', description='Electrical conductivity sensor logs')
 
 # Initialize Marshmallow EcSchema 
 ec_schema = EcSchema()
 
 
+@api.route('/<log_id>')
+@api.param('log_id', 'The unique identifier of the ec log')
 class ec_log_by_id(Resource):
 	'''
 	Class for getting an ec log by its id
@@ -19,13 +23,14 @@ class ec_log_by_id(Resource):
 		'''
 		ec_log = EcModel.query.filter_by(log_id = log_id).first()
 		if not ec_log:
-		    abort(404, message="Could not find ec log with that id")
+		    abort(404, 'Could not find ec log with that id')
 		return ec_schema.jsonify(ec_log)
 
 
+@api.route('/')
 class ec_log(Resource):
 	'''
-	Class for posting a ec log and getting all ec logs
+	Class for posting an ec log and getting all ec logs
 	'''
 	def get(self):
 		'''

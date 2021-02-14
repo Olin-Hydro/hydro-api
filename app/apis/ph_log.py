@@ -1,14 +1,18 @@
-# Ph log api classes
-from flask_restful import abort, Resource
-from flask import jsonify, request
-from models import PhModel, db
-from schemas import PhSchema
+from flask_restx import Namespace, Resource
+from flask import jsonify, request, abort
 
+from .resources.models import PhModel, db
+from .resources.schemas import PhSchema
+
+
+api = Namespace('ph', description='pH sensor logs')
 
 # Initialize Marshmallow PhSchema 
 ph_schema = PhSchema()
 
 
+@api.route('/<log_id>')
+@api.param('log_id', 'The unique identifier of the pH log')
 class ph_log_by_id(Resource):
 	'''
 	Class for getting a ph log by its id
@@ -19,10 +23,11 @@ class ph_log_by_id(Resource):
 		'''
 		ph_log = PhModel.query.filter_by(log_id = log_id).first()
 		if not ph_log:
-		    abort(404, message="Could not find ph log with that id")
+		    abort(404, 'Could not find a ph log with that id')
 		return ph_schema.jsonify(ph_log)
 
 
+@api.route('/')
 class ph_log(Resource):
 	'''
 	Class for posting a ph log and getting all ph logs

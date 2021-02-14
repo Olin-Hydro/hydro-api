@@ -1,6 +1,6 @@
 # Marshmallow Schemas
 from flask_marshmallow import Marshmallow
-from models import PhModel, EcModel, TempModel
+from .models import PhModel, EcModel, TempModel
 
 
 # Initialize marshmallow for marshalling
