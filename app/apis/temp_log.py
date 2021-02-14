@@ -1,14 +1,18 @@
-# Temp log api classes
-from flask_restful import abort, Resource
-from flask import jsonify, request
-from models import TempModel, db
-from schemas import TempSchema
+from flask_restx import Namespace, Resource
+from flask import jsonify, request, abort
 
+from .resources.models import TempModel, db
+from .resources.schemas import TempSchema
+
+
+api = Namespace('temp', description='Temperature sensor logs')
 
 # Initialize Marshmallow TempSchema 
 temp_schema = TempSchema()
 
 
+@api.route('/<log_id>')
+@api.param('log_id', 'The unique identifier of the temperature sensor log')
 class temp_log_by_id(Resource):
 	'''
 	Class for getting an temp log by its id
@@ -19,10 +23,11 @@ class temp_log_by_id(Resource):
 		'''
 		temp_log = TempModel.query.filter_by(log_id = log_id).first()
 		if not temp_log:
-		    abort(404, message="Could not find temp log with that id")
+		    abort(404, 'Could not find a temp log with that id')
 		return temp_schema.jsonify(temp_log)
 
 
+@api.route('/')
 class temp_log(Resource):
 	'''
 	Class for posting a temp log and getting all temp logs

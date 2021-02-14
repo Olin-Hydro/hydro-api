@@ -1,10 +1,13 @@
-# Create HydroDB database
 import os
-from flask_restful import Resource
+from flask_restx import Namespace, Resource
 
-from models import PhModel, EcModel, TempModel, db
+from .resources.models import PhModel, EcModel, TempModel, db
 
 
+api = Namespace('init_db', description='Reset the database')
+
+
+@api.route('/')
 class init_db(Resource):
 	'''
 	Class for initializing the database

@@ -1,4 +1,3 @@
-# Config File
 import os
 
 
@@ -12,18 +11,31 @@ class Config(object):
 
 
 class ProductionConfig(Config):
+    CONFIG_NAME = 'prod'
     DEBUG = False
 
 
 class StagingConfig(Config):
+    CONFIG_NAME = 'stage'
     DEVELOPMENT = True
     DEBUG = True
 
 
 class DevelopmentConfig(Config):
+    CONFIG_NAME = 'dev'
     DEVELOPMENT = True
     DEBUG = True
 
 
 class TestingConfig(Config):
+    CONFIG_NAME = 'test'
     TESTING = True
+
+
+EXPORT_CONFIGS = [
+    ProductionConfig,
+    StagingConfig,
+    DevelopmentConfig,
+    TestingConfig
+]
+config_by_name = {cfg.CONFIG_NAME: cfg for cfg in EXPORT_CONFIGS}
