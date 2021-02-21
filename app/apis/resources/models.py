@@ -55,3 +55,20 @@ class TempModel(db.Model):
     updated_at = db.Column(db.DateTime, 
                         default=datetime.utcnow, 
                         onupdate=datetime.utcnow)
+
+
+class LevelModel(db.Model):
+    '''
+    SQLAlchemy DB Class for water level logs
+    '''
+    __tablename__ = 'LEVEL_LOG'
+    log_id = db.Column(db.Integer, 
+                            primary_key=True)
+    timestamp = db.Column(db.DateTime, 
+                            default=datetime.utcnow)               
+    level = db.Column(db.Integer, 
+                        index=True)
+    level_raw = db.Column(db.String(32))
+    updated_at = db.Column(db.DateTime, 
+                        default=datetime.utcnow, 
+                        onupdate=datetime.utcnow)

@@ -1,6 +1,6 @@
 # Marshmallow Schemas
 from flask_marshmallow import Marshmallow
-from .models import PhModel, EcModel, TempModel
+from .models import PhModel, EcModel, TempModel, LevelModel
 
 
 # Initialize marshmallow for marshalling
@@ -32,3 +32,13 @@ class TempSchema(ma.SQLAlchemyAutoSchema):
 	'''
 	class Meta:
 		model = TempModel
+
+
+class LevelSchema(ma.SQLAlchemyAutoSchema):
+	'''
+	Class that defines how water level logs are marshalled
+	Automatically created based on TempModel
+	'''
+	class Meta:
+		model = LevelModel
+
