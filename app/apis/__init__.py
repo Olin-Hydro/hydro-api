@@ -6,6 +6,7 @@ from .ec_log import api as ec_log_ns
 from .ph_log import api as ph_log_ns
 from .temp_log import api as temp_log_ns
 from .user import api as user_ns
+from .level_log import api as level_log_ns
 
 
 api = Api(
@@ -20,3 +21,4 @@ api.add_namespace(ec_log_ns)
 api.add_namespace(ph_log_ns)
 api.add_namespace(temp_log_ns)
 api.add_namespace(user_ns)
+api.add_namespace(level_log_ns)

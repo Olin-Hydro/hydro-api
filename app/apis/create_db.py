@@ -1,7 +1,7 @@
 import os
 from flask_restx import Namespace, Resource
 
-from .resources.models import PhModel, EcModel, TempModel, UserModel, db
+from .resources.models import PhModel, EcModel, TempModel, UserModel, LevelModel, db
 
 
 api = Namespace('init_db', description='Reset the database')
@@ -36,6 +36,11 @@ class init_db(Resource):
 		    {"email": "fake_email@mail.net", "name": "Jane Doe", "password": "password123", "permission": "user"},
 		    {"email": "email_fake@mail.net", "name": "John Doe", "password": "password321", "permission": "user"},
 		]
+		LEVEL =  [
+		    {"level": 6.1, "level_raw": "test data"},
+		    {"level": 7.9, "level_raw": "test data"},
+		    {"level": 6.6, "level_raw": "test data"}
+		]
 
 		# Delete the database if it exists
 		#if os.path.exists('HydroDB.db'):
@@ -58,6 +63,9 @@ class init_db(Resource):
 		    u = UserModel(email=user['email'], name=user['name'], permission=user['permission'])
 		    u.set_password(user["password"])
 		    db.session.add(u)
+		for log in LEVEL:		
+		    l = LevelModel(level=log['level'], level_raw=log['level_raw'])
+		    db.session.add(l)
 
 		# Save changes
 		db.session.commit()
