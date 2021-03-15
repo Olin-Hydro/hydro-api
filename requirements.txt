@@ -10,3 +10,4 @@ Flask-RESTful==0.3.8
 Flask-SQLAlchemy==2.4.4
 flask-marshmallow==0.14.0
 flask-restx==0.2.0
+pytest==6.2.2

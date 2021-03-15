@@ -1,6 +1,6 @@
 # Marshmallow Schemas
 from flask_marshmallow import Marshmallow
-from .models import PhModel, EcModel, TempModel
+from .models import PhModel, EcModel, TempModel, UserModel
 
 
 # Initialize marshmallow for marshalling
@@ -32,3 +32,12 @@ class TempSchema(ma.SQLAlchemyAutoSchema):
 	'''
 	class Meta:
 		model = TempModel
+
+
+class UserSchema(ma.SQLAlchemyAutoSchema):
+	'''
+	Class that defines how user information is marshalled
+	Automatically created based on UserModel
+	'''
+	class Meta:
+		model = UserModel

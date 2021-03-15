@@ -1,6 +1,7 @@
 # Contains db models
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 db = SQLAlchemy()
@@ -55,3 +56,28 @@ class TempModel(db.Model):
     updated_at = db.Column(db.DateTime, 
                         default=datetime.utcnow, 
                         onupdate=datetime.utcnow)
+
+
+class UserModel(db.Model):
+    '''
+    SQLAlchemy DB Class for users
+    '''
+    __tablename__ = 'USERS'
+    user_id = db.Column(db.Integer, 
+                            primary_key=True)
+    created_at = db.Column(db.DateTime, 
+                            default=datetime.utcnow)               
+    email = db.Column(db.String(50),
+                            unique=True)
+    name = db.Column(db.String(32))
+    permission = db.Column(db.String(32))
+    password_hash = db.Column(db.String(128))
+    updated_at = db.Column(db.DateTime, 
+                        default=datetime.utcnow, 
+                        onupdate=datetime.utcnow)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)

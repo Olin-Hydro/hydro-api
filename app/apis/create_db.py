@@ -1,7 +1,7 @@
 import os
 from flask_restx import Namespace, Resource
 
-from .resources.models import PhModel, EcModel, TempModel, db
+from .resources.models import PhModel, EcModel, TempModel, UserModel, db
 
 
 api = Namespace('init_db', description='Reset the database')
@@ -32,6 +32,10 @@ class init_db(Resource):
 		    {"temp": 23.1, "temp_raw": "test data"},
 		    {"temp": 22.8, "temp_raw": "test data"}
 		]
+		USER =  [
+		    {"email": "fake_email@mail.net", "name": "Jane Doe", "password": "password123", "permission": "user"},
+		    {"email": "email_fake@mail.net", "name": "John Doe", "password": "password321", "permission": "user"},
+		]
 
 		# Delete the database if it exists
 		#if os.path.exists('HydroDB.db'):
@@ -50,6 +54,10 @@ class init_db(Resource):
 		for log in TEMP:		
 		    l = TempModel(temp=log['temp'], temp_raw=log['temp_raw'])
 		    db.session.add(l)
+		for user in USER:
+		    u = UserModel(email=user['email'], name=user['name'], permission=user['permission'])
+		    u.set_password(user["password"])
+		    db.session.add(u)
 
 		# Save changes
 		db.session.commit()
