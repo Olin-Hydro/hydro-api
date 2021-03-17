@@ -1,4 +1,4 @@
-# HydroAPI
+# Hydro-api
 [Currently under development]
 ## Install Dependencies
 ```
