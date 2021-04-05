@@ -17,17 +17,17 @@ def create_app(env=None):
     app = Flask(__name__)
     app.config.from_object(config_by_name[env or "dev"])
 
-    # Initialize api 
+    # Initialize api
     api.init_app(app)
 
     # Initialize flask_sqlalchemy
     db.init_app(app)
 
-    # Initialize marshmallow 
+    # Initialize marshmallow
     ma.init_app(app)
 
-    @app.route('/health')
+    @app.route("/health")
     def health():
-        return jsonify('health')
+        return jsonify("health")
 
     return app

@@ -1,5 +1,5 @@
 # Hydro-api
-[Currently under development]
+
 ## Install Dependencies
 ```
 pip install -r requirements.txt

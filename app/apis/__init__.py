@@ -1,4 +1,4 @@
-'''Initialize the api namespaces'''
+"""Initialize the api namespaces"""
 from flask_restx import Api
 
 from .create_db import api as init_db_ns
@@ -10,9 +10,9 @@ from .level_log import api as level_log_ns
 
 
 api = Api(
-    title='Hydro API',
-    version='1.1',
-    description='Hydroponics API to store and retrieve data on our Hydroponics system',
+    title="Hydro API",
+    version="1.1",
+    description="Hydroponics API to store and retrieve data on our Hydroponics system",
 )
 
 
