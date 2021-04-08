@@ -24,7 +24,7 @@ class user(Resource):
         Return user information if password matches
         """
         data = request.get_json()
-        if "email" not in data:
+        if data == None or "email" not in data:
             abort(400, "Email was not specified")
         user = UserModel.query.filter_by(email=data["email"]).first()
         if not user:
