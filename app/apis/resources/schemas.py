@@ -1,6 +1,6 @@
 # Marshmallow Schemas
 from flask_marshmallow import Marshmallow
-from .models import PhModel, EcModel, TempModel, UserModel, LevelModel
+from .models import PhModel, EcModel, TempModel, UserModel, LevelModel, SystemModel
 
 
 # Initialize marshmallow for marshalling
@@ -55,3 +55,13 @@ class LevelSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = LevelModel
+
+
+class SystemSchema(ma.SQLAlchemyAutoSchema):
+    """
+    Class that defines how system settings are marshalled
+    Automatically created based on SystemModel
+    """
+
+    class Meta:
+        model = SystemModel

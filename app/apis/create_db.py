@@ -1,7 +1,8 @@
 import os
+import json
 from flask_restx import Namespace, Resource
 
-from .resources.models import PhModel, EcModel, TempModel, UserModel, LevelModel, db
+from .resources.models import PhModel, EcModel, TempModel, UserModel, LevelModel, SystemModel, db
 
 
 api = Namespace("init_db", description="Initialize the database with test information")
@@ -13,7 +14,7 @@ class init_db(Resource):
     Class for initializing the database
     """
 
-    def post(self):
+    def get(self):
         """
         Creates new database with initial data
         """
@@ -47,17 +48,27 @@ class init_db(Resource):
             {"level": 7.9, "level_raw": "test data"},
             {"level": 6.6, "level_raw": "test data"},
         ]
+        SYSTEM = [
+            {
+                "data": {
+                    "ph_high": 7,
+                    "ec_low": 1.4,
+                    "sensor_interval": 120,
+                    "check_ec_ph_interval": 1200,
+                }
+            }
+        ]
 
         # Delete the database if it exists
-        # if os.path.exists('HydroDB.db'):
-        #    os.remove('HydroDB.db')
+        if os.path.exists('HydroDB.db'):
+            os.remove('HydroDB.db')
 
         # Create the database based on models
         db.create_all()
 
         # Add initial test data
         for log in PH:
-            l = PhModel(ph=log["ph"], ph_raw=log["ph_raw"])
+            l = PhModel(ph=log["ph"])
             db.session.add(l)
         for log in EC:
             l = EcModel(ec=log["ec"], ec_raw=log["ec_raw"])
@@ -74,6 +85,9 @@ class init_db(Resource):
         for log in LEVEL:
             l = LevelModel(level=log["level"], level_raw=log["level_raw"])
             db.session.add(l)
+        for sys in SYSTEM:
+            s = SystemModel(data=sys["data"])
+            db.session.add(s)
 
         # Save changes
         db.session.commit()

@@ -19,7 +19,7 @@ class user(Resource):
 
     def get(self):
         """
-                Find a user by email
+        Find a user by email
         Check user password against hashed password
         Return user information if password matches
         """

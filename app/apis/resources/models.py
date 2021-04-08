@@ -87,3 +87,17 @@ class LevelModel(db.Model):
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
+
+
+class SystemModel(db.Model):
+    """
+    SQLAlchemy DB Class for system parameters
+    """
+
+    __tablename__ = "SYSTEM_SETTINGS"
+    system_id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    data = db.Column(db.PickleType)
+    updated_at = db.Column(
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
