@@ -62,9 +62,6 @@ class system_settings(Resource):
         Add and commit the object to the db
         """
         data = request.get_json()
-        import sys
-
-        print(data, file=sys.stderr)
         new_system = SystemModel(data=data)
         db.session.add(new_system)
         db.session.commit()
