@@ -48,7 +48,7 @@ class temp_log(Resource):
         Add and commit the object to the db
         """
         data = request.get_json()
-        new_temp_log = TempModel(temp=data["temp"], temp_raw=data["temp_raw"])
+        new_temp_log = TempModel(temp=data["temp"])
         db.session.add(new_temp_log)
         db.session.commit()
         return temp_schema.jsonify(new_temp_log)

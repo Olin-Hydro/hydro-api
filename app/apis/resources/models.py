@@ -15,7 +15,7 @@ class PhModel(db.Model):
     __tablename__ = "PH_LOG"
     log_id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    ph = db.Column(db.Integer, index=True)
+    ph = db.Column(db.Float, index=True)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
@@ -29,8 +29,7 @@ class EcModel(db.Model):
     __tablename__ = "EC_LOG"
     log_id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    ec = db.Column(db.Integer, index=True)
-    ec_raw = db.Column(db.String(32))
+    ec = db.Column(db.Float, index=True)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
@@ -44,8 +43,7 @@ class TempModel(db.Model):
     __tablename__ = "TEMP_LOG"
     log_id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    temp = db.Column(db.Integer, index=True)
-    temp_raw = db.Column(db.String(32))
+    temp = db.Column(db.Float, index=True)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
@@ -82,8 +80,7 @@ class LevelModel(db.Model):
     __tablename__ = "LEVEL_LOG"
     log_id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    level = db.Column(db.Integer, index=True)
-    level_raw = db.Column(db.String(32))
+    level = db.Column(db.Float, index=True)
     updated_at = db.Column(
         db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )

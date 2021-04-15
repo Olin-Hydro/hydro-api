@@ -48,7 +48,7 @@ class ec_log(Resource):
         Add and commit the object to the db
         """
         data = request.get_json()
-        new_ec_log = EcModel(ec=data["ec"], ec_raw=data["ec_raw"])
+        new_ec_log = EcModel(ec=data["ec"])
         db.session.add(new_ec_log)
         db.session.commit()
         return ec_schema.jsonify(new_ec_log)

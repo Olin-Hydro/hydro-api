@@ -48,7 +48,7 @@ class level_log(Resource):
         Add and commit the object to the db
         """
         data = request.get_json()
-        new_level_log = LevelModel(level=data["level"], level_raw=data["level_raw"])
+        new_level_log = LevelModel(level=data["level"])
         db.session.add(new_level_log)
         db.session.commit()
         return level_schema.jsonify(new_level_log)
