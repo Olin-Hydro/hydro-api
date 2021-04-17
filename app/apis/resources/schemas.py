@@ -1,6 +1,14 @@
 # Marshmallow Schemas
 from flask_marshmallow import Marshmallow
-from .models import PhModel, EcModel, TempModel, UserModel, LevelModel, SystemModel
+from .models import (
+    PhModel,
+    EcModel,
+    TempModel,
+    UserModel,
+    LevelModel,
+    SystemModel,
+    TaskModel,
+)
 
 
 # Initialize marshmallow for marshalling
@@ -65,3 +73,13 @@ class SystemSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = SystemModel
+
+
+class TaskSchema(ma.SQLAlchemyAutoSchema):
+    """
+    Class that defines how Task logs are marshalled
+    Automatically created based on TaskModel
+    """
+
+    class Meta:
+        model = TaskModel

@@ -8,6 +8,7 @@ from .temp_log import api as temp_log_ns
 from .user import api as user_ns
 from .level_log import api as level_log_ns
 from .system_settings import api as system_settings_ns
+from .task_log import api as task_log_ns
 
 
 api = Api(
@@ -24,3 +25,4 @@ api.add_namespace(temp_log_ns)
 api.add_namespace(user_ns)
 api.add_namespace(level_log_ns)
 api.add_namespace(system_settings_ns)
+api.add_namespace(task_log_ns)

@@ -9,6 +9,7 @@ from .resources.models import (
     UserModel,
     LevelModel,
     SystemModel,
+    TaskModel,
     db,
 )
 
@@ -62,9 +63,15 @@ class init_db(Resource):
                     "ph_high": 7,
                     "ec_low": 1.4,
                     "sensor_interval": 120,
-                    "check_ec_ph_interval": 1200,
+                    "dispense_interval": 1200,
                 }
             }
+        ]
+        TASK = [
+            {"task_type": "ph_down", "data": "400"},
+            {"task_type": "ec_up", "data": "450"},
+            {"task_type": "ph_down", "data": "1000"},
+            {"task_type": "ec_up", "data": "1100"},
         ]
 
         # Delete the database if it exists
@@ -96,6 +103,9 @@ class init_db(Resource):
         for sys in SYSTEM:
             s = SystemModel(data=sys["data"])
             db.session.add(s)
+        for log in TASK:
+            l = TaskModel(task_type=log["task_type"], data=log["data"])
+            db.session.add(l)
 
         # Save changes
         db.session.commit()
