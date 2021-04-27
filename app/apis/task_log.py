@@ -47,7 +47,7 @@ class task_log(Resource):
         Create a model object
         Add and commit the object to the db
         """
-        data = request.get_json()
+        data = request.get_json()["task"]
         new_task_log = TaskModel(data=data["data"], task_type=data["task_type"])
         db.session.add(new_task_log)
         db.session.commit()
