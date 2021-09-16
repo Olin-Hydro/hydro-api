@@ -3,6 +3,7 @@ from flask import jsonify, request, abort
 
 from .resources.models import PhModel, db
 from .resources.schemas import PhSchema
+from .utils import str_to_datetime
 
 
 api = Namespace('ph', description='pH sensor logs')
@@ -25,6 +26,25 @@ class ph_log_by_id(Resource):
         if not ph_log:
             abort(404, 'Could not find a ph log with that id')
         return ph_schema.jsonify(ph_log)
+
+
+@api.param("start_time", "The starting time frame for the desired logs in iso format")
+@api.param("end_time", "The ending time frame for the desired logs in iso format")
+@api.route("/<start_time>/<end_time>")
+class ph_log_by_timeframe(Resource):
+    """
+    Class for getting all ph logs in a timeframe
+    """
+
+    def get(self, start_time, end_time):
+        """
+        Get all ph logs within start_time and end_time range
+        """
+        start_time = str_to_datetime(start_time)
+        end_time = str_to_datetime(end_time)
+        ph_logs = PhModel.query.filter(PhModel.timestamp >= start_time).\
+                                    filter(PhModel.timestamp <= end_time)
+        return jsonify(ph_schema.dump(ph_logs, many=True))
 
 
 @api.route('/')

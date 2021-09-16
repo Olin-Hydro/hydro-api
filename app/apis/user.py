@@ -40,10 +40,13 @@ class user(Resource):
         Add and commit the object to the db
         """
         data = request.get_json()
-        new_user = UserModel(
-            email=data["email"], name=data["name"], permission=data["permission"]
-        )
-        new_user.set_password(data["password"])
-        db.session.add(new_user)
-        db.session.commit()
+        try:
+            new_user = UserModel(
+                email=data["email"], name=data["name"], permission=data["permission"]
+            )
+            new_user.set_password(data["password"])
+            db.session.add(new_user)
+            db.session.commit()
+        except KeyError:
+            abort(400, "Missing email, name, permission, or password keys in request data")
         return user_schema.jsonify(new_user)

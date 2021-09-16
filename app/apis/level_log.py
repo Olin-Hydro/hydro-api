@@ -3,6 +3,7 @@ from flask import jsonify, request, abort
 
 from .resources.models import LevelModel, db
 from .resources.schemas import LevelSchema
+from .utils import str_to_datetime
 
 
 api = Namespace("level", description="Water level sensor logs")
@@ -26,6 +27,25 @@ class level_log_by_id(Resource):
         if not level_log:
             abort(404, "Could not find a water level log with that id")
         return level_schema.jsonify(level_log)
+
+
+@api.param("start_time", "The starting time frame for the desired logs in iso format")
+@api.param("end_time", "The ending time frame for the desired logs in iso format")
+@api.route("/<start_time>/<end_time>")
+class level_log_by_timeframe(Resource):
+    """
+    Class for getting all level logs in a timeframe
+    """
+
+    def get(self, start_time, end_time):
+        """
+        Get all level logs within start_time and end_time range
+        """
+        start_time = str_to_datetime(start_time)
+        end_time = str_to_datetime(end_time)
+        level_logs = LevelModel.query.filter(LevelModel.timestamp >= start_time).\
+                                    filter(LevelModel.timestamp <= end_time)
+        return jsonify(level_schema.dump(level_logs, many=True))
 
 
 @api.route("/")

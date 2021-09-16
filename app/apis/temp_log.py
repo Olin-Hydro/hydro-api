@@ -3,6 +3,7 @@ from flask import jsonify, request, abort
 
 from .resources.models import TempModel, db
 from .resources.schemas import TempSchema
+from .utils import str_to_datetime
 
 
 api = Namespace("temp", description="Temperature sensor logs")
@@ -26,6 +27,25 @@ class temp_log_by_id(Resource):
         if not temp_log:
             abort(404, "Could not find a temp log with that id")
         return temp_schema.jsonify(temp_log)
+
+
+@api.param("start_time", "The starting time frame for the desired logs in iso format")
+@api.param("end_time", "The ending time frame for the desired logs in iso format")
+@api.route("/<start_time>/<end_time>")
+class temp_log_by_timeframe(Resource):
+    """
+    Class for getting all temp logs in a timeframe
+    """
+
+    def get(self, start_time, end_time):
+        """
+        Get all temp logs within start_time and end_time range
+        """
+        start_time = str_to_datetime(start_time)
+        end_time = str_to_datetime(end_time)
+        temp_logs = TempModel.query.filter(TempModel.timestamp >= start_time).\
+                                    filter(TempModel.timestamp <= end_time)
+        return jsonify(temp_schema.dump(temp_logs, many=True))
 
 
 @api.route("/")

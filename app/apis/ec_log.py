@@ -3,6 +3,7 @@ from flask import jsonify, request, abort
 
 from .resources.models import EcModel, db
 from .resources.schemas import EcSchema
+from .utils import str_to_datetime
 
 
 api = Namespace("ec", description="Electrical conductivity sensor logs")
@@ -26,6 +27,25 @@ class ec_log_by_id(Resource):
         if not ec_log:
             abort(404, "Could not find ec log with that id")
         return ec_schema.jsonify(ec_log)
+
+
+@api.param("start_time", "The starting time frame for the desired logs in iso format")
+@api.param("end_time", "The ending time frame for the desired logs in iso format")
+@api.route("/<start_time>/<end_time>")
+class ec_log_by_timeframe(Resource):
+    """
+    Class for getting all ec logs in a timeframe
+    """
+
+    def get(self, start_time, end_time):
+        """
+        Get all ec logs within start_time and end_time range
+        """
+        start_time = str_to_datetime(start_time)
+        end_time = str_to_datetime(end_time)
+        ec_logs = EcModel.query.filter(EcModel.timestamp >= start_time).\
+                                    filter(EcModel.timestamp <= end_time)
+        return jsonify(ec_schema.dump(ec_logs, many=True))
 
 
 @api.route("/")
