@@ -15,22 +15,11 @@ class ProductionConfig(Config):
     DEBUG = False
 
 
-class StagingConfig(Config):
-    CONFIG_NAME = "stage"
-    DEVELOPMENT = True
-    DEBUG = True
-
-
 class DevelopmentConfig(Config):
-    CONFIG_NAME = "dev"
+    CONFIG_NAME = "development"
     DEVELOPMENT = True
     DEBUG = True
 
 
-class TestingConfig(Config):
-    CONFIG_NAME = "test"
-    TESTING = True
-
-
-EXPORT_CONFIGS = [ProductionConfig, StagingConfig, DevelopmentConfig, TestingConfig]
+EXPORT_CONFIGS = [ProductionConfig, DevelopmentConfig]
 config_by_name = {cfg.CONFIG_NAME: cfg for cfg in EXPORT_CONFIGS}

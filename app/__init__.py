@@ -1,5 +1,4 @@
-from flask import Flask, jsonify
-from flask_restx import Api
+from flask import Flask
 from colorama import init
 
 from .apis.resources.models import db
@@ -8,14 +7,20 @@ from .apis import api
 from .config import config_by_name
 
 
-def create_app(env=None):
+def create_app(env="development"):
 
     # Initialize colorama
     init()
 
     # Initialize flask app
     app = Flask(__name__)
-    app.config.from_object(config_by_name[env or "dev"])
+    app.config.from_object(config_by_name[env])
+
+    @app.after_request
+    def set_headers(response):
+        if env == "development":
+            response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
 
     # Initialize api
     api.init_app(app)
@@ -25,9 +30,5 @@ def create_app(env=None):
 
     # Initialize marshmallow
     ma.init_app(app)
-
-    @app.route("/health")
-    def health():
-        return jsonify("health")
 
     return app
