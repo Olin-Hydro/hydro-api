@@ -14,7 +14,7 @@ def create_app(env="development"):
 
     # Initialize flask app
     app = Flask(__name__)
-    app.config.from_object(config_by_name[env])
+    app.config.from_object(config_by_name["development"])
 
     @app.after_request
     def set_headers(response):
